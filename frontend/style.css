@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    padding: 2rem;
+    font-family: sans-serif;
+    transition: background 0.1s;
+}
+
+#uiContainer {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.align-left  #uiContainer { margin-left: 0; margin-right: auto; }
+.align-center #uiContainer { margin: 0 auto; }
+.align-right #uiContainer { margin-left: auto; margin-right: 0; }
+
+.controls-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.controls-row select,
+.controls-row button,
+#jsonInput {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 0.1rem solid #ccc;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    transition: background 0.1s;
+}
+
+#jsonInput, #resultBlock
+{
+    width: 100%;
+    margin-bottom: 1rem;
+    font-family: monospace;
+    font-size: 1rem;
+}
+
+#resultBlock {
+    margin-top: 0;
+    padding: 0.75rem;
+    background: #ddd;
+    border-radius: 0.5rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+    text-align: center;
+    transition: background 0.1s;
+}
+
+#resultBlock.json-output {
+    text-align: left;
+}
+
+.theme-light {
+    background: #f4f4f4;
+    color: #111;
+}
+
+.theme-dark {
+    background: #1e1e1e;
+    color: #eee;
+}
+
+.theme-dark select,
+.theme-dark button,
+.theme-dark textarea,
+.theme-dark pre {
+    background: #333;
+    color: #eee;
+    border: 0.1rem solid #555;
+    border-radius: 0.5rem;
+}
+
+.theme-dark #resultBlock {
+    background: #222;
+}
+
+.theme-dark button:hover {
+    background: #444;
+}
+
+.theme-dark textarea::placeholder {
+    color: #aaa;
+}
+
+.primary-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.1s;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+
+.theme-dark .primary-btn {
+    background-color: #3399ff;
+}
+
+.theme-dark .primary-btn:hover {
+    background-color: #1a75d1;
+}

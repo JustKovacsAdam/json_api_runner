@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>API Runner</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body class="align-center theme-light">
+<div id="uiContainer">
+    <div class="controls-row">
+        <select id="apiSelect">
+            <option value="" disabled selected hidden>Select a service</option>
+            <option value="userService">userService</option>
+            <option value="imageService">imageService</option>
+            <option value="mathService">mathService</option>
+        </select>
+        <button id="toggleTheme">Switch to Dark Mode</button>
+        <button id="toggleAlign">Align Right</button>
+        <button id="runBtn" class="primary-btn">Run</button>
+    </div>
+
+    <textarea id="jsonInput" rows="10" placeholder="Enter JSON input..."></textarea>
+    <pre id="resultBlock" >Results will appear here</pre>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
