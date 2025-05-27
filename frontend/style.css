@@ -21,17 +21,31 @@ body {
     margin-bottom: 1rem;
 }
 
-.controls-row select,
-.controls-row button,
-#jsonInput {
+.form-control {
     flex: 1;
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem;
     font-size: 1rem;
-    font-family: inherit;
     border: 0.1rem solid #ccc;
     border-radius: 0.5rem;
-    box-sizing: border-box;
     transition: background 0.1s;
+}
+
+.primary-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.1s;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 #jsonInput, #resultBlock
@@ -46,13 +60,18 @@ body {
     margin-top: 0;
     padding: 0.75rem;
     background: #ddd;
-    border-radius: 0.5rem;
     white-space: pre-wrap;
     word-break: break-word;
     overflow-wrap: break-word;
     box-sizing: border-box;
     text-align: center;
-    transition: background 0.1s;
+}
+
+#toggleRawInput {
+    width: 1.5rem;
+    height: 1.5rem;
+    accent-color: #007bff;
+    cursor: pointer;
 }
 
 #resultBlock.json-output {
@@ -72,6 +91,7 @@ body {
 .theme-dark select,
 .theme-dark button,
 .theme-dark textarea,
+.theme-dark input,
 .theme-dark pre {
     background: #333;
     color: #eee;
@@ -89,18 +109,6 @@ body {
 
 .theme-dark textarea::placeholder {
     color: #aaa;
-}
-
-.primary-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    font-weight: bold;
-    transition: background-color 0.1s;
-}
-
-.primary-btn:hover {
-    background-color: #0056b3;
 }
 
 .theme-dark .primary-btn {

@@ -5,7 +5,7 @@ export async function getImageByName({ name }) {
     const imagePath = path.resolve('backend/images', name);
     
     const ext = path.extname(name).toLowerCase();
-    let mimeType = 'image/jpeg'; // default
+    let mimeType = 'image/jpeg';
     if (ext === '.png') mimeType = 'image/png';
     else if (ext === '.gif') mimeType = 'image/gif';
 

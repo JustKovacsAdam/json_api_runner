@@ -8,21 +8,30 @@
 <body class="align-center theme-light">
 <div id="uiContainer">
     <div class="controls-row">
-        <select id="apiSelect">
+        
+        <select id="apiSelect" class="form-control">
             <option value="" disabled selected hidden>Select a service</option>
             <option value="userService">userService</option>
             <option value="imageService">imageService</option>
             <option value="mathService">mathService</option>
         </select>
-        <button id="toggleTheme">Switch to Dark Mode</button>
-        <button id="toggleAlign">Align Right</button>
-        <button id="runBtn" class="primary-btn">Run</button>
+        
+        <button id="toggleTheme" class="form-control">Switch to Dark Mode</button>
+        <button id="toggleAlign" class="form-control">Align Right</button>
+        <button id="runBtn" class="primary-btn form-control">Run</button>
+        
     </div>
-
-    <textarea id="jsonInput" rows="10" placeholder="Enter JSON input..."></textarea>
-    <pre id="resultBlock" >Results will appear here</pre>
+    <div class="controls-row">
+        <label class="form-control">
+            <input type="checkbox" id="toggleRawInput"/>
+            Enable raw JSON input
+        </label>
+    </div>
+    <div id="paramFields"></div>
+    <textarea id="jsonInput" rows="16" placeholder="Enter JSON input..." class="form-control"></textarea>
+    <pre id="resultBlock" class="form-control">Results will appear here</pre>
 </div>
 
-<script src="main.js"></script>
+<script type="module" src="main.js"></script>
 </body>
 </html>
