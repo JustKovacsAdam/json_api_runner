@@ -1,8 +1,8 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dispatcher from './backend/dispatcher.js';
+import logger from "./backend/logger.js";
 
 const app = express();
 const port = 3000;
@@ -11,9 +11,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const frontendPath = path.join(__dirname, 'frontend');
-console.log('Static path:', frontendPath);  // Debug line
+logger.log('Static path:', frontendPath);
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.post('/dispatch', async (req, res) => {
     const result = await dispatcher(req.body);
@@ -27,5 +27,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    logger.log(`Server running at http://localhost:${port}`);
 });

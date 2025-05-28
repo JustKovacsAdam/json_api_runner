@@ -1,5 +1,6 @@
 import apiMetadata from './utils/apiMetadata.js';
 import {generateStaticParamFields} from "./components/paramGenerator.js";
+import {buildRequestBody} from "./components/requestBuilder.js";
 
 const apiSelect      = document.getElementById('apiSelect');
 const toggleTheme    = document.getElementById('toggleTheme');
@@ -17,48 +18,80 @@ function showResult(obj) {
     resultBlock.classList.add('json-output');
 }
 
-function getRequestBody() {
-    let parsed;
-    try {
-        parsed = JSON.parse(jsonInput.value.trim() || '{}');
-    } catch (err) {
-        return { error: 'Invalid JSON: ' + err.message };
+function getSelectedMethod(selectedService){
+    const methodNames = Object.keys(apiMetadata[selectedService].methods);
+    if (methodNames.length === 1) {
+        return methodNames[0];
+    }else{
+        return paramFieldsContainer.querySelector('select').value;
     }
+}
 
-    const module = apiSelect.value || 'unknownService';
-    
-    if (Array.isArray(parsed)) {
-        return { error: 'Invalid input: expected an object with a method name key.' };
-    }
+function handleFieldGeneration(){
+    if (toggleRawInput.checked) return;
 
-    const method = Object.keys(parsed)[0];
-    if (!method) {
-        return { error: 'Missing method name in JSON input.' };
-    }
+    const selectedService = apiSelect.value;
 
-    const params = parsed[method];
-    
-    if (Array.isArray(params)) {
-        return params.map(p => ({
-            module,
-            method,
-            params: p
-        }));
+    const service = apiMetadata[selectedService];
+    const methods = Object.keys(service.methods);
+
+    paramFieldsContainer.innerHTML = '';
+
+    const inputContainer = document.createElement('div');
+    inputContainer.id = 'inputContainer';
+    inputContainer.className = 'controls-row';
+
+    if (methods.length === 1) {
+        const methodName = methods[0];
+        paramFieldsContainer.appendChild(inputContainer);
+        generateStaticParamFields(service.methods[methodName].params, inputContainer);
+    } else {
+        createMethodSelector(methods, service, inputContainer);
     }
-    
-    return [{
-        module,
-        method,
-        params
-    }];
+}
+
+function createMethodSelector(methods, service, container) {
+    const methodSelectContainer = document.createElement('div');
+    methodSelectContainer.id = 'methodSelectContainer';
+    methodSelectContainer.className = 'controls-row';
+    paramFieldsContainer.appendChild(methodSelectContainer);
+
+    const methodSelect = document.createElement('select');
+    methodSelect.id = 'methodSelect';
+    methodSelect.className = 'form-control';
+    methodSelect.innerHTML =
+        '<option disabled selected>Select method</option>' +
+        methods.map(method => `<option value="${method}">${method}</option>`).join('');
+    methodSelectContainer.appendChild(methodSelect);
+
+    methodSelect.addEventListener('change',  (event) => {
+        const selectedMethod = event.target.value;
+        const methodParams = service.methods[selectedMethod].params;
+        paramFieldsContainer.appendChild(container);
+        generateStaticParamFields(methodParams, container);
+    });
 }
 
 runBtn.addEventListener('click', async () => {
-    //TODO Change this to allow non raw inputs
-    if (!toggleRawInput.checked) return;
+    const useRaw = toggleRawInput.checked
+    const selectedService = apiSelect.value;
+    const jsonInputValue = jsonInput.value;
+    let selectedMethod;
+    let paramMetadata;
+
+    if (!useRaw){
+        selectedMethod = getSelectedMethod(selectedService);
+        paramMetadata = apiMetadata[selectedService].methods[selectedMethod].params;
+    }
     
-    //TODO Implement a request body formatter component
-    const body = getRequestBody();
+    const body = buildRequestBody({
+        useRaw: useRaw,
+        rawInput: jsonInputValue,
+        selectedService: selectedService,
+        selectedMethod: selectedMethod,
+        paramContainer: paramFieldsContainer,
+        paramMetadata: paramMetadata
+    })
 
     if (body.error) return showResult(body);
 
@@ -96,56 +129,14 @@ toggleAlign.addEventListener('click', () => {
 });
 
 toggleRawInput.addEventListener('change', () => {
-    jsonInput.style.display   = toggleRawInput.checked ? 'block' : 'none';
+    jsonInput.style.display = toggleRawInput.checked ? 'block' : 'none';
     paramFieldsContainer.style.display = toggleRawInput.checked ? 'none'  : 'block';
+    toggleRawInput ? handleFieldGeneration() : null;
 });
 
 apiSelect.addEventListener('change', () => {
-    if (toggleRawInput.checked) return;
-    
-    const selectedService = apiSelect.value;
-
-    const service = apiMetadata[selectedService];
-    const methods = Object.keys(service.methods);
-    
-    paramFieldsContainer.innerHTML = '';
-
-    const inputContainer = document.createElement('div');
-    inputContainer.id = 'inputContainer';
-    inputContainer.className = 'controls-row';
-
-    if (methods.length === 1) {
-        const methodName = methods[0];
-        paramFieldsContainer.appendChild(inputContainer);
-        generateStaticParamFields(service.methods[methodName].params, inputContainer);
-    } else {
-        const methodSelectContainer = document.createElement('div');
-        methodSelectContainer.id = 'methodSelectContainer';
-        methodSelectContainer.className = 'controls-row';
-        paramFieldsContainer.appendChild(methodSelectContainer);
-        
-        const methodSelect = document.createElement('select');
-        methodSelect.id = 'methodSelect';
-        methodSelect.className = 'form-control';
-        methodSelect.innerHTML =
-            '<option disabled selected>Select method</option>' +
-            methods.map(method => `<option value="${method}">${method}</option>`).join('');
-        methodSelectContainer.appendChild(methodSelect);
-
-        methodSelect.addEventListener('change',  (event) => {
-            const selectedMethod = event.target.value;
-            const methodParams = service.methods[selectedMethod].params;
-            paramFieldsContainer.appendChild(inputContainer);
-            if (selectedMethod === 'multiplyMatrices') {
-                
-            }else{
-                generateStaticParamFields(methodParams, inputContainer);
-            }
-
-        });
-    }
+    handleFieldGeneration();
 });
 
-jsonInput.value = `{\n  "getUserProfile": { "id": 1 }\n}`;
 jsonInput.style.display = 'none';
 paramFieldsContainer.style.display = 'block';

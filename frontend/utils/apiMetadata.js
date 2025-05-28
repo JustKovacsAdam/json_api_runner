@@ -3,7 +3,7 @@ const apiMetadata = {
         methods: {
             getUserProfile: {
                 params: [
-                    {Title: 'ID', Type: 'number' }
+                    {FieldName: 'id',  Title: 'ID', Type: 'number', Format: 'value' }
                 ] 
             }
         }
@@ -12,24 +12,24 @@ const apiMetadata = {
         methods: {
             getImageByName: {
                 params: [
-                    {Title: 'Name', Type: 'text' },
-                    {Title: 'Type', Type: 'text' }
+                    {FieldName: 'name', Title: 'Name', Type: 'text', Format: 'value' },
+                    {FieldName: 'type', Title: 'Type', Type: 'text', Format: 'value' }
                 ]
             }
         }
     },
     mathService: {
         methods: {
-            fibonacci: {
+            getFibonacci: {
                 params: [
-                    {Title: 'nth Number', Type: 'number' },
+                    {FieldName: 'n', Title: 'nth Number', Type: 'number', Format: 'value' },
                 ]
             },
             multiplyMatrices: {
                 params: [
-                    {Title: 'Matrix A', Type: 'number' },
-                    {Title: 'Matrix B', Type: 'number' }
-                ]
+                    {FieldName: 'A', Title: 'Matrix A', Type: 'text', Format: 'json' },
+                    {FieldName: 'B', Title: 'Matrix B', Type: 'text', Format: 'json' }
+                ],
             }
         }
     }
