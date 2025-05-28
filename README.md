@@ -21,11 +21,9 @@ A dynamic web-based interface for testing and interacting with various backend s
 ### 1. Clone the repository
 
 ```bash
-git https://github.com/JustKovacsAdam/json_api_runner.git
+git clone https://github.com/JustKovacsAdam/json_api_runner.git
 cd json_api_runner
 ```
-
-### 2. Install Dependencies
 
 ### 2. Install dependencies & start the dev server
 
