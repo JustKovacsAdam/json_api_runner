@@ -1,0 +1,50 @@
+Raw API call samples(make sure to select the correct service):
+(With Raw API calls you can fetch multiple values at once even from different methods)
+(Raw API calls don't allow cross service/module calls)
+
+- Get user with id 1:
+
+{
+  "getUserProfile": [{ "id": 1 }]
+}
+
+- Get users with id 1 and 2:
+
+{
+  "getUserProfile": [{ "id": 1 }, { "id": 2 }]
+}
+
+- Get image data named cat.png:
+
+{
+  "getImageByName": [{ "name": "cat", "type": "png" }]
+}
+
+- Get image data named cat.png and homer.gif:
+
+{
+  "getImageByName": [{ "name": "cat", "type": "png" }, { "name": "homer", "type": "gif" }]
+}
+
+- Get 5th fibonacci number and multiply matrix A with matrix B:
+(Matrix A shape: [1, 2], Matrix B shape [3])
+                                        [4]
+
+{
+  "getFibonacci": [{ "n": 5 }],
+  "multiplyMatrices": [
+    {
+      "A": [[1, 2]],
+      "B": [[3], [4]]
+    }
+  ]
+}
+
+
+
+Non-Raw API call samples: 
+- getUserProfile: 1 or 2
+- getImageByName: cat + png, test + jpg, Homer + gif
+- getFibonacci: Pretty much any number. Values increase 'exponentially' so it's better to use smaller numbers.
+- multiplyMatrices: [[1, 2]] + [[3], [4]] or [[1, 2], [1, 2]] + [[1, 2], [1, 2]]. 
+    Format is pretty specific but if it's a valid 2D array it should be able to calculate it.
